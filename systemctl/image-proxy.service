@@ -1,0 +1,17 @@
+[Unit]
+Description=Gunicorn splash image proxy
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/image_proxy
+Environment="PATH=/var/www/image_proxy/vpython/bin"
+ExecStart=/var/www/image_proxy/vpython/bin/gunicorn --workers 2 --bind=192.168.1.253:8888 --log-level=info proxy:app
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=proxy
+
+[Install]
+WantedBy=multi-user.target
+

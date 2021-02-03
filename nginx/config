@@ -1,0 +1,29 @@
+#
+# Sample code snippet to add into an nginx config to support a local proxy service
+# that recieves URL requests ultimately destined for the unsplash server.
+#
+
+
+## Upstream to the proxy servers
+upstream image_proxy {
+        server server1_ip:8888;
+        server server2_ip:8888;
+}
+
+# Code snippet to rewrite unsplash URLs to point to local service
+server {
+
+    # Modify response that contains unsplash.com URLs to instead reference URL on my cloud server
+    # Note: relies upon nginx rewrite sub_filter, otherwise you will need to modify the source
+    #       of the cloud service to generate your URL instead of the unsplash URL
+    sub_filter source.unsplash.com CLOUD_SERVER_FQN/unsplash/source.unsplash.com;
+    sub_filter images.unsplash.com CLOUD_SERVER_FQN/unsplash/images.unsplash.com;
+
+    # Does client URL request match this server and begin with /unsplash?
+    # Remove the unsplash part and redirect to the image proxy service
+    location /unsplash {
+        rewrite  /unsplash/(.*) /$1 break;
+        proxy_pass http://image_proxy;
+    }
+}
+
