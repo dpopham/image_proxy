@@ -29,10 +29,10 @@ Please don't pursue this for the forces of evil.
 - virtualenv
 
 ### Setup:
-> cd PROXY_FOLDER
-> virtualenv -p python3 vpython
-> source vpython/bin/activate
-> pip install -r requirements.txt
+> cd PROXY_FOLDER<br>
+> virtualenv -p python3 vpython<br>
+> source vpython/bin/activate<br>
+> pip install -r requirements.txt<br>
 
 You can the run from the command line or setup an autostart mechanism (I included a sample systemctl script, but you would need to edit the folders as appropriate).
 
